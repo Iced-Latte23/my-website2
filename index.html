@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Love 💖</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+        body {
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #ff758c, #ff7eb3);
+            overflow-x: hidden;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        h1 {
+            font-size: 45px;
+            color: white;
+            margin-top: 20px;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .container {
+            margin-top: 20px;
+        }
+
+        .letter,
+        .scrapbook {
+            display: none;
+            padding: 20px;
+            border-radius: 15px;
+            background: white;
+            margin: 20px auto;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+            border: 3px solid #ff3366;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-in-out;
+        }
+
+        .letter h2 {
+            color: #ff3366;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .letter p {
+            font-size: 18px;
+            color: #444;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: white;
+            color: #ff3366;
+            border: 2px solid #ff3366;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: 0.3s ease;
+        }
+
+        button:hover {
+            background: #ff3366;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .photo-slideshow {
+            width: 100%;
+            max-width: 300px;
+            height: 300px;
+            margin: 20px auto;
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            border: 3px solid #ff4d4d;
+        }
+
+        .photo-slideshow img {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            object-fit: cover;
+        }
+
+        .countdown {
+            font-size: 1em;
+            color: #ff4d4d;
+            margin-bottom: 20px;
+        }
+
+        #quote {
+            font-size: 18px;
+            font-style: italic;
+            color: #555;
+            margin-top: 10px;
+        }
+
+        #timer {
+            font-size: 15px;
+            font-weight: bold;
+            margin-top: 10px;
+            color: #ff3366;
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 25px;
+            color: red;
+            pointer-events: none;
+            animation: floatUp 2s linear forwards;
+        }
+
+        @keyframes floatUp {
+            0% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-100px);
+            }
+        }
+
+        .stars {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            opacity: 0;
+            animation: twinkle 5s infinite ease-in-out;
+        }
+
+        .video-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .video-gallery video {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 10px;
+            border: 3px solid #ff4d4d;
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes twinkle {
+            0% {
+                opacity: 0;
+                transform: translateY(0px);
+            }
+
+            50% {
+                opacity: 1;
+                transform: translateY(100px);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(200px);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 35px;
+            }
+
+            .letter,
+            .scrapbook {
+                width: 95%;
+                padding: 15px;
+            }
+
+            .letter h2 {
+                font-size: 24px;
+            }
+
+            .letter p {
+                font-size: 16px;
+            }
+
+            .photo-slideshow {
+                height: 250px;
+            }
+
+            .video-gallery video {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 28px;
+            }
+
+            .letter h2 {
+                font-size: 22px;
+            }
+
+            .letter p {
+                font-size: 14px;
+            }
+
+            .photo-slideshow {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>For My Love 💌</h1>
+    <button onclick="showContent()">Open My Heart</button>
+
+    <div class="container">
+        <div id="letter" class="letter">
+            <h2>My Dearest Love ❤️</h2>
+            <p id="typedMessage"></p>
+            <p id="quote">"Love is not just looking at each other, it's looking in the same direction." 💖</p>
+            <p id="timer"></p>
+            <div class="countdown" id="startCountdown"></div>
+        </div>
+
+        <div id="scrapbook" class="scrapbook">
+            <h2>📸 Our Scrapbook</h2>
+            <p>Each picture here holds a special memory that I cherish. I can’t wait to create more beautiful moments
+                with you.</p>
+            <div class="photo-slideshow">
+                <img src="img/image (1).jpg" class="slide" style="opacity:1;">
+                <img src="img/image (2).jpg" class="slide">
+                <img src="img/image (3).jpg" class="slide">
+                <img src="img/image (4).jpg" class="slide">
+                <img src="img/image (5).jpg" class="slide">
+                <img src="img/image (6).jpg" class="slide">
+                <img src="img/image (7).jpg" class="slide">
+                <img src="img/image (8).jpg" class="slide">
+                <img src="img/image (9).jpg" class="slide">
+                <img src="img/image (10).jpg" class="slide">
+                <img src="img/image (11).jpg" class="slide">
+                <img src="img/image (12).jpg" class="slide">
+                <img src="img/image (13).jpg" class="slide">
+                <img src="img/image (14).jpg" class="slide">
+                <img src="img/image (15).jpg" class="slide">
+                <img src="img/image (16).jpg" class="slide">
+            </div>
+
+            <!-- Video Gallery -->
+            <h2>🎥 Our Moments</h2>
+            <p>Every video captures a piece of our story, from laughter to love. Here’s to the memories we’re building
+                together!</p>
+            <div class="video-gallery">
+                <video controls muted autoplay loop>
+                    <source src="video/video (1).mp4" type="video/mp4">
+                </video>
+                <video controls muted autoplay loop>
+                    <source src="video/video (2).mp4" type="video/mp4">
+                </video>
+                <video controls muted autoplay loop>
+                    <source src="video/video (3).mp4" type="video/mp4">
+                </video>
+                <video controls muted autoplay loop>
+                    <source src="video/video (4).mp4" type="video/mp4">
+                </video>
+                <video controls muted autoplay loop>
+                    <source src="video/video (5).mp4" type="video/mp4">
+                </video>
+                <video controls muted autoplay loop>
+                    <source src="video/video (6).mp4" type="video/mp4">
+                </video>
+                <video controls muted autoplay loop>
+                    <source src="video/video (7).mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+    </div>
+
+    <audio id="backgroundMusic" loop>
+        <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="stars" id="stars"></div>
+
+    <script>
+        function showContent() {
+            let letter = document.getElementById('letter');
+            let scrapbook = document.getElementById('scrapbook');
+            let music = document.getElementById('backgroundMusic');
+
+            letter.style.display = 'block';
+            scrapbook.style.display = 'block';
+
+            setTimeout(() => {
+                letter.style.opacity = '1';
+                letter.style.transform = 'translateY(0)';
+                typeMessage();
+                showRandomQuote();
+                updateTimer();
+            }, 200);
+
+            setTimeout(() => {
+                scrapbook.style.opacity = '1';
+                scrapbook.style.transform = 'translateY(0)';
+                startSlideshow();
+            }, 600);
+
+            music.play();
+        }
+
+        // Typing effect for the love letter message
+        let i = 0;
+        let message = "From the moment we met, my life has been filled with nothing but joy, and every second spent with you feels like a beautiful dream.";
+        function typeMessage() {
+            let typedMessage = document.getElementById('typedMessage');
+            if (i < message.length) {
+                typedMessage.innerHTML += message.charAt(i);
+                i++;
+                setTimeout(typeMessage, 45);
+            }
+        }
+
+        // Countdown Timer
+        function updateTimer() {
+            let startDate = new Date("2020-10-23");
+            let now = new Date();
+            let difference = now - startDate;
+            let days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            document.getElementById('timer').innerText = `We've been together for ${days} days! ❤️`;
+        }
+
+        // Countdown Timer (Set your special date)
+        function startCountdown() {
+            const targetDate = new Date("February 23, 2025 00:00:00").getTime(); // Use the correct target date
+            setInterval(() => {
+                let now = new Date().getTime(); // Current time
+                let diff = targetDate - now; // Calculate the time difference
+
+                // Calculate the time remaining
+                let days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                let hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                let seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                // Display the countdown
+                document.getElementById("startCountdown").innerHTML =
+                    `Countdown to Our Special Day:<br>${days}d ${hours}h ${minutes}m ${seconds}s`;
+            }, 1000);
+        }
+        startCountdown();
+
+
+        // Show a random quote
+        let quotes = [
+            '"I love you to the moon and back!" 🌙',
+            '"You are the light of my life!" 💫',
+            '"My heart belongs to you, always!" ❤️',
+            '"You complete me in every way!" 💖'
+        ];
+        function showRandomQuote() {
+            let randomIndex = Math.floor(Math.random() * quotes.length);
+            document.getElementById('quote').innerText = quotes[randomIndex];
+        }
+
+        // Slideshow of images
+        let slideIndex = 0;
+        function startSlideshow() {
+            let slides = document.querySelectorAll('.photo-slideshow .slide');
+            setInterval(function () {
+                slides.forEach((slide, index) => {
+                    slide.style.opacity = '0';
+                });
+                slideIndex = (slideIndex + 1) % slides.length;
+                slides[slideIndex].style.opacity = '1';
+            }, 1500);
+        }
+
+        // Create random floating hearts
+        function createHeart() {
+            let heart = document.createElement('div');
+            heart.classList.add('floating-heart');
+            heart.innerHTML = '💖';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 2000);
+        }
+        setInterval(createHeart, 300);
+    </script>
+</body>
+
+</html>
