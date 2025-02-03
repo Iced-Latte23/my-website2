@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Love Map 💖</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #ff758c, #ff7eb3);
+            color: #333;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3vw;
+            /* Adjust based on screen size */
+            color: white;
+            margin-top: 20px;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Make the map responsive */
+        #map {
+            height: 500px;
+            width: 95vw;
+            /* Adjust to screen size */
+            max-width: 800px;
+            margin: 20px auto;
+            border-radius: 15px;
+            border: 3px solid #ff3366;
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Memory popup responsiveness */
+        .memory-popup img,
+        .memory-popup video {
+            width: 100%;
+            max-width: 400px;
+            /* Prevent overly large images */
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        /* Adjust font sizes for smaller screens */
+        .memory-popup h3 {
+            font-size: 4vw;
+            color: #ff3366;
+            margin: 0;
+        }
+
+        .memory-popup p {
+            font-size: 3vw;
+            color: #555;
+        }
+
+        /* Make slideshow container responsive */
+        .slideshow-container {
+            position: relative;
+            width: 90%;
+            /* Adjust width based on screen size */
+            max-width: 400px;
+            margin: auto;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Ensure images and videos scale properly */
+        .mySlides img,
+        .mySlides video {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 10px;
+            margin: auto;
+        }
+
+        /* Adjust navigation button sizes for mobile */
+        .prev,
+        .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            font-size: 14px;
+            /* Smaller buttons on mobile */
+            padding: 8px;
+            cursor: pointer;
+            border: none;
+            z-index: 2;
+        }
+
+        /* Reduce button size on smaller screens */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 6vw;
+            }
+
+            .prev,
+            .next {
+                font-size: 12px;
+                padding: 6px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <audio id="bgMusic" loop autoplay>
+        <source src="music/bensound-love.mp3" type="audio/mpeg">
+    </audio>
+
+    <h1>Our Love Map 💌</h1>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Initialize the map
+        const map = L.map('map').setView([11.566258, 104.919380], 12);
+
+        // Add a tile layer (map background)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map);
+
+        // Define memories (markers with popups)
+        const memories = [
+            {
+                coords: [11.511477755479149, 104.93349504554945],
+                title: "Where We First Met 💖",
+                description: "The moment I saw you, I knew something special was about to begin. This is where our beautiful journey started.",
+                image: "img/image (5).jpg"
+            },
+            {
+                coords: [11.549543484363753, 104.93267355536969],
+                title: "Our First Date 🍽️",
+                description: "A Afternoon filled with laughter, delicious food, and the spark of something unforgettable.",
+                image: "img/image (18).jpg"
+            },
+            {
+                coords: [11.509879525195824, 104.93862634993523],
+                title: "Our Favorite Park 🌳",
+                description: "Endless walks, heartfelt conversations, and memories made under the open sky.",
+                image: ["img/image (12).jpg", "img/image (9).jpg", "img/image (2).jpg", "img/image (3).jpg", "img/image (4).jpg", "img/image (15).jpg", "img/image (16).jpg"]
+            },
+            {
+                coords: [11.516738028894498, 104.9553033154945],
+                title: "Other Our Favorite Park 🌳",
+                description: "Unwinding in the park, where every moment feels calm and refreshing.",
+            },
+            {
+                coords: [11.5953917190391, 104.92648783011651],
+                title: "Enjoy Date Night ✨",
+                description: "A fun-filled night of laughter, great food, and exciting adventures!",
+                video: "video/video (9).mp4"
+            },
+            {
+                coords: [11.510834, 104.931018],
+                title: "Study Dates 📚",
+                description: "Staying late after class, helping each other, and making studying more fun",
+                image: ["img/iamge (20).jpg", "img/image (6).jpg"]
+            },
+            {
+                coords: [11.511190258328055, 104.93357783122994],
+                title: "Our Go-To Café ☕",
+                description: "Countless cups of coffee and even more laughter shared here.",
+                image: ["img/image (8).jpg", "img/image (10).jpg", "img/image (7).jpg"]
+            },
+            {
+                coords: [11.56227088886921, 104.92371036861162],
+                title: "Our Movie Night 🎬",
+                description: "Where we watched our favorite movie together.",
+                image: "img/image (20).jpg"
+            }
+        ];
+
+        // Add a custom heart icon for the markers
+        const heartIcon = L.icon({
+            iconUrl: 'https://cdn-icons-png.flaticon.com/512/535/535183.png',
+            iconSize: [40, 40],
+            iconAnchor: [20, 40],
+            popupAnchor: [0, -40]
+        });
+
+        // Function to create the slideshow in popup
+        function createSlideshow(images) {
+            let slideshowContent = `<div class="slideshow-container">`;
+
+            images.forEach((image, index) => {
+                slideshowContent += `
+            <div class="mySlides fade">
+                <img src="${image}" alt="Memory Image ${index + 1}">
+            </div>
+        `;
+            });
+
+            slideshowContent += `
+        <button class="prev" onclick="plusSlides(-1)">&#10094;</button>
+        <button class="next" onclick="plusSlides(1)">&#10095;</button>
+    </div>
+    `;
+
+            return slideshowContent;
+        }
+
+        // Function to initialize the slideshow functionality
+        function initSlideshow() {
+            let slideIndex = 0;
+            const slides = document.querySelectorAll(".mySlides");
+
+            function showSlides() {
+                slides.forEach(slide => (slide.style.display = "none")); // Hide all slides
+                slideIndex++;
+                if (slideIndex > slides.length) slideIndex = 1; // Loop back
+                slides[slideIndex - 1].style.display = "block"; // Show current slide
+            }
+
+            showSlides();
+            setInterval(showSlides, 1000);
+
+            // Attach event listeners for next/prev buttons (manual navigation)
+            const prevButton = document.querySelector('.prev');
+            const nextButton = document.querySelector('.next');
+            if (prevButton && nextButton) {
+                prevButton.addEventListener('click', () => {
+                    slideIndex -= 2;  // Go back one step
+                    if (slideIndex < 0) slideIndex = slides.length - 1;
+                    showSlides();
+                });
+                nextButton.addEventListener('click', () => showSlides());
+            }
+        }
+
+        // Add markers for each memory
+        memories.forEach(memory => {
+            let popupContent = `<div class="memory-popup ">
+        ${
+                // Check if the memory has an array of images (slideshow)
+                memory.image && Array.isArray(memory.image)
+                    ? createSlideshow(memory.image)
+                    : // If it's a single image
+                    (memory.image ? `<img src="${memory.image}" alt="${memory.title}">` : '')
+                }
+        ${
+                // If there's a video
+                memory.video ? `<video controls autoplay loop muted>
+                <source src="${memory.video}" type="video/mp4">
+            </video>` : ''
+                }
+        <h3>${memory.title}</h3>
+        <p>${memory.description}</p>
+    </div>`;
+
+            const marker = L.marker(memory.coords, { icon: heartIcon })
+                .addTo(map)
+                .bindPopup(popupContent);
+
+            // After the popup is opened, initialize the slideshow
+            marker.on('popupopen', () => {
+                if (memory.image && Array.isArray(memory.image)) {
+                    initSlideshow();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
